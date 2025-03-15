@@ -1,1 +1,5 @@
-@import './common';
+@import './utils/common';
+@import './utils/container';
+@import './layout/header';
+@import './layout/events';
+@import './layout/footer';
