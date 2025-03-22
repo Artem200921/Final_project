@@ -1,18 +1,36 @@
 <header id="header">
-  <a href="" id="header__logo"></a>
+  <a href="" id="header__logo">
+    <picture>
+      <source media="(min-width: 1440px)" srcset="./images/logo-desktop.png" />
+      <source media="(min-width: 768px)" srcset="./images/logo-tablet.png" />
+      <img src="./images/logo-mobile.png" alt="" />
+    </picture>
+  </a>
   <div id="header__wrap" class="container">
     <h1 id="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
-    <label for="header__searching" class="header__label">
-      <input type="text" id="header__searching" placeholder="Start searching" class="header__input"/>
-      <svg width="12" height="12" class="header__search--icon header__svg">
-        <use href="./images/symbol-defs.svg#search"></use>
-      </svg>
-    </label>
-    <label for="header__country" class="header__label">
-      <input type="text" id="header__country" placeholder="Choose country" class="header__input"/>
-      <svg width="13" height="8" class="header__country--icon header__svg">
-        <use href="./images/symbol-defs.svg#drop-down_menu"></use>
-      </svg>
-    </label>
+    <div class="header__wrapForInputs">
+      <label for="header__searching" class="header__label">
+        <input
+          type="text"
+          id="header__searching"
+          placeholder="Start searching"
+          class="header__input"
+        />
+        <svg width="12" height="12" class="header__search--icon header__svg">
+          <use href="./images/symbol-defs.svg#search"></use>
+        </svg>
+      </label>
+      <label for="header__country" class="header__label">
+        <input
+          type="text"
+          id="header__country"
+          placeholder="Choose country"
+          class="header__input"
+        />
+        <svg width="13" height="8" class="header__country--icon header__svg">
+          <use href="./images/symbol-defs.svg#drop-down_menu"></use>
+        </svg>
+      </label>
+    </div>
   </div>
 </header>
