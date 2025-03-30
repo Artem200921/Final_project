@@ -8,6 +8,15 @@ body {
   font-family: Montserrat;
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
 a {
   text-decoration: none;
 }
