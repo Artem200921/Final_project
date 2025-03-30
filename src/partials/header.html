@@ -1,7 +1,7 @@
 <header id="header">
   <a href="" id="header__logo">
     <picture>
-      <source media="(min-width: 1440px)" srcset="./images/logo-desktop.png" />
+      <source media="(min-width: 1280px)" srcset="./images/logo-desktop.png" />
       <source media="(min-width: 768px)" srcset="./images/logo-tablet.png" />
       <img src="./images/logo-mobile.png" alt="" />
     </picture>
@@ -21,14 +21,22 @@
         </svg>
       </label>
       <label for="header__country" class="header__label">
-        <input
-          type="text"
-          id="header__country"
-          placeholder="Choose country"
-          class="header__input"
-        />
-        <svg width="13" height="8" class="header__country--icon header__svg">
-          <use href="./images/symbol-defs.svg#drop-down_menu"></use>
+        <div class="dropdown">
+          <input
+            type="text"
+            id="header__country"
+            placeholder="Country"
+            class="header__input header__input--dropDown"
+          />
+          <div class="dropdown-content">
+            <div id="dropdown__line"></div>
+            <div class="dropdown__wrap">
+            </div>
+          </div>
+        </div>
+
+        <svg width="15" height="10" class="header__country--icon header__svg">
+          <use href="./images/symbol-defs.svg#drop-down_menu" id="up"></use>
         </svg>
       </label>
     </div>
