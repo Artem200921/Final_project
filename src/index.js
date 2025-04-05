@@ -72,13 +72,13 @@ function renderTimeout() {
           console.log(element.dates.start.localDate);
           const eventItem = document.createElement('li');
           eventItem.classList.add('events__item');
-          eventItem.innerHTML = `<div class="events__item--wrap">
+          eventItem.innerHTML = `<div class="events__item--wrap"></div>
             <img src="${element.images[0].url}" alt="Event Image" class="events__image"/>
               <h3 class="events__item--title">${element.name}</h3>
               <p class="events__item--date">${element.dates.start.localDate}</p>
               <p class="events__item--location">Location: City, Country</p>
-              <p class="events__item--description">Description of the event goes here.</p>
-            </div>`;
+           
+            `;
           eventsList.appendChild(eventItem);
         });
       })
