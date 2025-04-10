@@ -110,6 +110,7 @@ inputDropDownWrap.addEventListener('click', e => {
 
 // Functions
 
+
 function pagination(elem) {
   const pagination2 = new Pagination(document.getElementById('pagination2'), {
     totalItems: elem.page.totalElements,
@@ -129,6 +130,7 @@ function pagination(elem) {
         eventRender(e._embedded.events);
         console.log(e);
         console.log(event.page);
+
       });
     }, 500);
   });
