@@ -1,17 +1,3 @@
-#main {
-  background-color: #0e0e0e;
-}
-
-.events__image {
-  width: 128px;
-  height: 161px;
-}
-
-.main__svg > use {
-  fill: #fff;
-  width: 12px;
-  height: 12px;
-}
 
 .tui-first {
   display: none !important;
@@ -32,3 +18,172 @@ a.tui-next {
 .hide {
   display: none;
 }
+
+#main{
+  background-color: #0E0E0E;
+
+}
+.events{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.events__list{
+  display: flex;
+flex-wrap: wrap;
+
+    width: 280px;
+    row-gap: 39px;
+}
+
+.events__image{
+    width: 128;
+height: 161;
+top: 585px;
+left: 25px;
+border-top-left-radius: 50px;
+border-bottom-right-radius: 50px;
+
+}
+
+
+.events__item--title{
+    color: #DC56C5 ;
+width: 128px;
+font-weight: 700;
+font-size: 14px;
+text-align: center;
+}
+
+.events__item--date{
+font-weight: 400;
+font-size: 14px;
+text-align: center;
+}
+
+
+.events__item--location{
+font-weight: 600;
+font-size: 12px;
+text-align: center;
+}
+
+
+.events__item{
+display: flex;
+flex-direction: column;
+    position: relative;
+
+z-index: 0;
+row-gap: 5px;
+  }
+
+
+
+.events__item--wrap{
+  position: absolute;
+    width: 109;
+    height: 101;
+
+    left: 29px;
+    bottom: 191px;
+    border: 2px solid #DC56C54D; 
+
+         
+    
+
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-width: 1px;
+    
+
+     z-index: -1;    
+}
+
+
+
+
+@media (min-width: 768px) {
+  .events__list{
+    justify-content: center;
+    align-items: center;
+    width: 610px;
+    row-gap: 58px;
+  }
+.events__image{
+  width: 180px;
+  height: 227px;
+}
+
+.events__item--title{
+font-size: 16px;
+width: 184px;
+}
+
+.events__item--date{
+  font-size: 16px;
+}
+
+.events__item--location{
+  font-size: 17px;
+}
+
+.events__item{
+
+}
+
+.events__item--wrap{
+  width: 153px;
+  height: 143px;
+  left: 41px;
+  bottom: 223px;
+}
+
+}
+
+
+@media (min-width: 1280px) {
+  main{
+    display: flex;
+    justify-content: center;align-items: center;
+  }
+  .events{
+    display: flex;
+    margin: 0; 
+  }
+  .events__list{
+    width: 946px;
+    row-gap: 63px;
+    column-gap: 52px;
+  }
+.events__image{
+  width: 180px;
+  height: 227px;
+}
+
+.events__item--title{
+font-size: 16px;
+width: 184px;
+}
+
+.events__item--date{
+  font-size: 16px;
+}
+
+.events__item--location{
+  font-size: 17px;
+}
+
+.events__item{
+
+}
+
+.events__item--wrap{
+  width: 153px;
+  height: 143px;
+  left: 41px;
+  bottom: 223px;
+}
+
+}
+
