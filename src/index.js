@@ -1,24 +1,59 @@
-// import * as crud from "modules/crud";
+// Imports
 
-const BASE_URL_FOR_COUNTRIES = 'https://restcountries.com/v3.1/all';
-let BASE_URL_FOR_EVENTS =
-  'https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=YEbYV4w0hwtYNZA6svLk6r6y6BhDdnA6 ';
+import Pagination from 'tui-pagination';
+import 'tui-pagination/dist/tui-pagination.css';
 
-async function render(url) {
-  try {
-    const response = await fetch(`${url}`);
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
-}
+// Variables
 
+let page = 0;
+let itemsPerPage = 0;
+let country = 'US';
+const inputSearch = document.querySelector('#header__searching');
 const inputDropDown = document.querySelector('#header__country');
 const inputDropDownSvg = document.querySelector('#up');
 const inputDropDownContent = document.querySelector('.dropdown-content');
 const inputDropDownWrap = document.querySelector('.dropdown__wrap');
-const eventsList = document.querySelector('#events__list');
+const list = document.querySelector('.js-articles-container');
+const BASE_URL = 'https://app.ticketmaster.com/discovery/v2/events.json';
+let searchQuery = '';
+
+// Media requests
+
+if (window.matchMedia('(min-width: 768px)').matches) {
+  itemsPerPage = 21;
+} else {
+  itemsPerPage = 20;
+}
+
+if (window.matchMedia('(min-width: 1280px)').matches) {
+  itemsPerPage = 20;
+} else {
+  itemsPerPage = 21;
+}
+
+// Search system
+
+inputSearch.addEventListener('input', e => {
+  e.preventDefault();
+  list.innerHTML = '';
+  page = 0;
+  searchQuery = inputSearch.value;
+  window.setTimeout(() => {
+    findEvent(searchQuery, page, itemsPerPage, country)
+      .then(e => {
+        console.log(e);
+        eventRender(e._embedded.events);
+        pagination(e);
+      })
+      .catch(error => {
+        alert('No events found for this search!');
+      });
+  }, 500);
+});
+
+// Country system
+
+// Hover
 
 inputDropDown.addEventListener('mouseover', e => {
   inputDropDownSvg.setAttribute(
@@ -45,45 +80,89 @@ inputDropDownContent.addEventListener('mouseout', e => {
   );
 });
 
-render(BASE_URL_FOR_COUNTRIES).then(data => {
-  // const events = data._embedded.events;
-  data.forEach(element => {
-    const countryLink = document.createElement('h3');
-    countryLink.classList.add('dropdown__link');
-    countryLink.textContent = element.name.common;
-    inputDropDownWrap.appendChild(countryLink);
-    countryLink.addEventListener('click', e => {
-      BASE_URL_FOR_EVENTS = `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=${element.altSpellings[0]}&apikey=YEbYV4w0hwtYNZA6svLk6r6y6BhDdnA6`;
-      inputDropDown.value = e.target.textContent;
-      renderTimeout();
-    });
-  });
+// System
+
+const arrayOfCountries = ['US', 'GB', 'DE', 'ES', 'PL', 'NL', 'SE', 'NO'];
+let countryLink;
+for (let i = 0; i < arrayOfCountries.length; i += 1) {
+  countryLink = document.createElement('h3');
+  countryLink.classList.add('dropdown__link');
+  countryLink.innerHTML += arrayOfCountries[i];
+  inputDropDownWrap.appendChild(countryLink);
+}
+
+inputDropDownWrap.addEventListener('click', e => {
+  if (e.target.classList.contains('dropdown__link')) {
+    list.innerHTML = '';
+    country = e.target.textContent;
+    console.log(BASE_URL);
+    setTimeout(() => {
+      findEvent(searchQuery, page, itemsPerPage, country).then(e => {
+        pagination(e);
+        eventRender(e._embedded.events);
+      });
+    }, 500);
+    inputDropDown.value = e.target.textContent;
+  } else {
+    console.log('not a country');
+  }
 });
 
-renderTimeout();
+// Functions
 
-function renderTimeout() {
-  window.setTimeout(() => {
-    render(BASE_URL_FOR_EVENTS)
-      .then(data => {
-        const events = data._embedded.events;
-        events.forEach(element => {
-          console.log(element);
-          console.log(element.dates.start.localDate);
-          const eventItem = document.createElement('li');
-          eventItem.classList.add('events__item');
-          eventItem.innerHTML = `<div class="events__item--wrap">
-            <img src="${element.images[0].url}" alt="Event Image" class="events__image"/>
-              <h3 class="events__item--title">${element.name}</h3>
-              <p class="events__item--date">${element.dates.start.localDate}</p>
-              <p class="events__item--location">Location: City, Country</p>
-              <p class="events__item--description">Description of the event goes here.</p>
-            </div>`;
-          eventsList.appendChild(eventItem);
-        });
-      })
-      .catch(error => {
-        alert('У цій країні немає подій', error);
+function pagination(elem) {
+  const pagination2 = new Pagination(document.getElementById('pagination2'), {
+    totalItems: elem.page.totalElements,
+    itemsPerPage: itemsPerPage,
+    visiblePages: 3,
+    centerAlign: true,
+  });
+  console.log(elem.page.totalPages);
+
+  pagination2.on('afterMove', event => {
+    if (event.page === 49) {
+      console.log(elem)
+    }
+    setTimeout(() => {
+      list.innerHTML = '';
+      findEvent(searchQuery, event.page, itemsPerPage, country).then(e => {
+        eventRender(e._embedded.events);
+        console.log(e);
+        console.log(event.page);
       });
-  }, 500);
+    }, 500);
+  });
 }
+
+async function findEvent(searchName, page, itemsPerPage, country) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}?keyword=${searchName}&size=${itemsPerPage}&page=${page}&countryCode=${country}&apikey=YEbYV4w0hwtYNZA6svLk6r6y6BhDdnA6`
+    );
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function eventRender(arc) {
+  console.log(arc);
+  arc.forEach(e => {
+    const item = `
+          <li>
+              <a href="${e.name}" target="_blank" rel="noopener noreferrer">
+              <article>
+                  <img src="${e.images[0].url}" alt="" width="480">
+                  <h2>${e.name}</h2>
+              </article>
+              </a>
+          </li>
+          `;
+    list.insertAdjacentHTML('beforeend', item);
+  });
+}
+
+// function pagination() {
+
+// }
