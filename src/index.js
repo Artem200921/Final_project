@@ -36,10 +36,18 @@ if (window.matchMedia('(min-width: 1280px)').matches) {
 findEvent(searchQuery, page, itemsPerPage, country).then(elem => {
   eventRender(elem._embedded.events);
   pagination(elem);
-  list.querySelector('.create').addEventListener('click', e => {
-    elem._embedded.events.forEach(elemen => {
-      modalRender(elemen.name);
-    });
+
+  list.addEventListener('click', e => {
+    if (e.target.nodeName == 'P') {
+      const modalBack = document.querySelector('.modal__back');
+      modalBack.classList.remove('hide');
+      modalBack.classList.add('visible');
+      modalBack.addEventListener('click', e => {
+        modalBack.classList.add('hide');
+        modalBack.classList.remove('visible');
+      });
+    }
+
   });
 });
 
@@ -118,10 +126,6 @@ inputDropDownWrap.addEventListener('click', e => {
   }
 });
 
-// Modal
-
-// const basicLightbox = require('basiclightbox');
-// import * as basicLightbox from 'basiclightbox';
 
 // Functions
 
@@ -165,15 +169,31 @@ function eventRender(arc) {
   console.log(arc);
   arc.forEach(elem => {
     const item = `
-          <li class=""><button class="create">
-          <img src="${elem.images[0].url}" alt="" width="480">
+              <li class="events__item">
+              <img src="${elem.images[0].url}" alt="" width="480">
               <h2 class="">${elem.name}</h2>
               <p class="">${elem.dates.start.localDate}</p>
               <p class="">${elem._embedded.venues[0].name}</p>
-              </button>
-          </li>
+              </li>
+              <div class="modal__back hide">
+                  <div class="event__modal">
+              <button class="close">X</button>
+              <img src="${elem.images[0].url}" alt="" width="120" class="modal__img">
+              <h3 class="modal__title">INFO</h3>
+              <p class="modal__info">${elem.info}</p>
+              <p class="modal__info">${elem._embedded.venues[0].name}</p>
+              <h3 class="modal__title">WHEN</h3>
+              <p class="modal__info">${elem.dates.start.localDate}</p>
+              <p class="modal__info">${elem.dates.start.localTime} (${elem.dates.timezone})</p>
+              <h3 class="modal__title">WHEN</h3>
+              <p class="modal__info">${elem._embedded.venues[0].country.name}</p>
+              <p class="modal__info">${elem._embedded.venues[0].address.name}</p>
+              <h3 class="modal__title">WHO</h3>
+              </div>
+              </div>
           `;
-
+    // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[0].attractions.name}</a>
+    // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[1].attractions.name}</a>
 
     list.insertAdjacentHTML('beforeend', item);
   });
