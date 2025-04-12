@@ -6,7 +6,7 @@ import 'tui-pagination/dist/tui-pagination.css';
 // Variables
 
 let page = 0;
-let itemsPerPage = 0;
+let itemsPerPage = 20;
 let country = 'US';
 const inputSearch = document.querySelector('#header__searching');
 const inputDropDown = document.querySelector('#header__country');
@@ -27,8 +27,6 @@ if (window.matchMedia('(min-width: 768px)').matches) {
 
 if (window.matchMedia('(min-width: 1280px)').matches) {
   itemsPerPage = 20;
-} else {
-  itemsPerPage = 21;
 }
 
 // Search system
@@ -36,17 +34,17 @@ if (window.matchMedia('(min-width: 1280px)').matches) {
 findEvent(searchQuery, page, itemsPerPage, country).then(elem => {
   eventRender(elem._embedded.events);
   pagination(elem);
-  list.addEventListener('click', e => {
-    if (e.target.nodeName == 'P') {
-      const modalBack = document.querySelector('.modal__back');
-      modalBack.classList.remove('hide');
-      modalBack.classList.add('visible');
-      modalBack.addEventListener('click', e => {
-        modalBack.classList.add('hide');
-        modalBack.classList.remove('visible');
-      });
-    }
-  });
+  // list.addEventListener('click', e => {
+  //   if (e.target.nodeName == 'P') {
+  //     const modalBack = document.querySelector('.modal__back');
+  //     modalBack.classList.remove('hide');
+  //     modalBack.classList.add('visible');
+  //     modalBack.addEventListener('click', e => {
+  //       modalBack.classList.add('hide');
+  //       modalBack.classList.remove('visible');
+  //     });
+  //   }
+  // });
 });
 
 inputSearch.addEventListener('input', e => {
@@ -135,7 +133,7 @@ function pagination(elem) {
   const pagination2 = new Pagination(document.getElementById('pagination2'), {
     totalItems: elem.page.totalElements,
     itemsPerPage: itemsPerPage,
-    visiblePages: 3,
+    visiblePages: 5,
     centerAlign: true,
   });
   console.log(elem.page.totalPages);
@@ -167,52 +165,71 @@ async function findEvent(searchName, page, itemsPerPage, country) {
   }
 }
 
+// С
+
 function eventRender(arc) {
   console.log(arc);
-  arc.forEach(elem => {
+  arc.forEach((elem, index) => {
+    // Створюємо унікальний ID для модального вікна кожної картки
+    const modalId = `modal-${index}`;
     const item = `
-              <li class="events__item">
-              <img src="${elem.images[0].url}" alt="" width="480">
-              <h2 class="">${elem.name}</h2>
-              <p class="">${elem.dates.start.localDate}</p>
-              <p class="">${elem._embedded.venues[0].name}</p>
-              </li>
-              <div class="modal__back hide">
-                  <div class="event__modal">
-              <button class="close">X</button>
-              <img src="${elem.images[0].url}" alt="" width="120" class="modal__img">
-              <h3 class="modal__title">INFO</h3>
-              <p class="modal__info">${elem.info}</p>
-              <p class="modal__info">${elem._embedded.venues[0].name}</p>
-              <h3 class="modal__title">WHEN</h3>
-              <p class="modal__info">${elem.dates.start.localDate}</p>
-              <p class="modal__info">${elem.dates.start.localTime} (${elem.dates.timezone})</p>
-              <h3 class="modal__title">WHEN</h3>
-              <p class="modal__info">${elem._embedded.venues[0].country.name}</p>
-              <p class="modal__info">${elem._embedded.venues[0].address.name}</p>
-              <h3 class="modal__title">WHO</h3>
-              </div>
-              </div>
-          `;
-    // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[0].attractions.name}</a>
-    // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[1].attractions.name}</a>
-
-
+      <li class="events__item">
+        <div class="events__item--wrap" ></div>
+        <div class="events__item" data-modal="${modalId}">
+          <img src="${elem.images[0].url}" class="events__item--image" alt="">
+          <h2 class="events__item--title">${elem.name}</h2>
+          <p class="events__item--date">${elem.dates.start.localDate}</p>
+          <p class="events__item--location">${elem._embedded.venues[0].name}</p>
+        </div>
+        <div id="${modalId}" class="modal__back hide">
+          <div class="event__modal">
+            <button class="close">X</button>
+            <img src="${
+              elem.images[0].url
+            }" alt="" width="120" class="modal__img">
+            <h3 class="modal__title">INFO</h3>
+            <p class="modal__info">${elem._embedded.venues[0].name}</p>
+            <h3 class="modal__title">WHEN</h3>
+            <p class="modal__info">${elem.dates.start.localDate}</p>
+            <p class="modal__info">${elem.dates.start.localTime} (${
+      elem.dates.timezone
+    })</p>
+            <h3 class="modal__title">WHERE</h3>
+            <p class="modal__info">${elem._embedded.venues[0].country.name}</p>
+            <p class="modal__info">${elem._embedded.venues[0].address.line1}</p>
+            <h3 class="modal__title">WHO</h3>
+            <p class="modal__info">${elem._embedded.attractions[0].name}</p>
+            <p class="${
+              elem._embedded.attractions &&
+              elem._embedded.attractions.length > 1
+                ? 'modal__info'
+                : ''
+            }">
+  ${
+    elem._embedded.attractions && elem._embedded.attractions.length > 1
+      ? elem._embedded.attractions[1].name
+      : ''
+  }
+</p>
+          </div>
+        </div>
+      </li>
+    `;
     list.insertAdjacentHTML('beforeend', item);
   });
+
+  // Обробник подій для відкриття модального вікна при кліку на картку
+  document.querySelectorAll('.events__item').forEach(card => {
+    card.addEventListener('click', () => {
+      const modalId = card.getAttribute('data-modal');
+      document.getElementById(modalId).classList.remove('hide');
+    });
+  });
+
+  document.querySelectorAll('.modal__back .close').forEach(button => {
+    button.addEventListener('click', e => {
+      e.stopPropagation();
+      e.target.closest('.modal__back').classList.add('hide');
+    });
+  });
 }
-
-function modalRender(element) {
-  const modal = basicLightbox.create(
-    `
-      <h2>${element}</h2>
-      <p>${element}</p>
-      <button class="close">${element}</button>
-  `
-  );
-  modal.show();
-}
-
-// function pagination() {
-
-// }
