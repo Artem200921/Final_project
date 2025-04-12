@@ -197,6 +197,7 @@ function eventRender(arc) {
     // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[0].attractions.name}</a>
     // <a href="${elem._embedded.venues[0].attractions.url}" class="">${elem._embedded.venues[1].attractions.name}</a>
 
+
     list.insertAdjacentHTML('beforeend', item);
   });
 }
