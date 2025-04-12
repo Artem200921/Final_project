@@ -74,7 +74,7 @@ function renderTimeout() {
           eventItem.classList.add('events__item');
           eventItem.innerHTML = `<div class="events__item--wrap"></div>
             <img src="${element.images[0].url}" alt="Event Image" class="events__image"/>
-              <h3 class="events__item--title">${element.name}</h3>
+              <h3 class="events__item--title">${element.name.length > 29 ? element.name.slice(0, 29) + '...' : element.name}</h3>
               <p class="events__item--date">${element.dates.start.localDate}</p>
               <p class="events__item--location">Location: City, Country</p>
            
