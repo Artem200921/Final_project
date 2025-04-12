@@ -33,6 +33,16 @@ if (window.matchMedia('(min-width: 1280px)').matches) {
 
 // Search system
 
+findEvent(searchQuery, page, itemsPerPage, country).then(elem => {
+  eventRender(elem._embedded.events);
+  pagination(elem);
+  list.querySelector('.create').addEventListener('click', e => {
+    elem._embedded.events.forEach(elemen => {
+      modalRender(elemen.name);
+    });
+  });
+});
+
 inputSearch.addEventListener('input', e => {
   e.preventDefault();
   list.innerHTML = '';
@@ -108,8 +118,12 @@ inputDropDownWrap.addEventListener('click', e => {
   }
 });
 
-// Functions
+// Modal
 
+// const basicLightbox = require('basiclightbox');
+// import * as basicLightbox from 'basiclightbox';
+
+// Functions
 
 function pagination(elem) {
   const pagination2 = new Pagination(document.getElementById('pagination2'), {
@@ -122,7 +136,7 @@ function pagination(elem) {
 
   pagination2.on('afterMove', event => {
     if (event.page === 49) {
-      console.log(elem)
+      console.log(elem);
     }
     setTimeout(() => {
       list.innerHTML = '';
@@ -130,7 +144,6 @@ function pagination(elem) {
         eventRender(e._embedded.events);
         console.log(e);
         console.log(event.page);
-
       });
     }, 500);
   });
@@ -150,19 +163,31 @@ async function findEvent(searchName, page, itemsPerPage, country) {
 
 function eventRender(arc) {
   console.log(arc);
-  arc.forEach(e => {
+  arc.forEach(elem => {
     const item = `
-          <li>
-              <a href="${e.name}" target="_blank" rel="noopener noreferrer">
-              <article>
-                  <img src="${e.images[0].url}" alt="" width="480">
-                  <h2>${e.name}</h2>
-              </article>
-              </a>
+          <li class=""><button class="create">
+          <img src="${elem.images[0].url}" alt="" width="480">
+              <h2 class="">${elem.name}</h2>
+              <p class="">${elem.dates.start.localDate}</p>
+              <p class="">${elem._embedded.venues[0].name}</p>
+              </button>
           </li>
           `;
+
+
     list.insertAdjacentHTML('beforeend', item);
   });
+}
+
+function modalRender(element) {
+  const modal = basicLightbox.create(
+    `
+      <h2>${element}</h2>
+      <p>${element}</p>
+      <button class="close">${element}</button>
+  `
+  );
+  modal.show();
 }
 
 // function pagination() {
