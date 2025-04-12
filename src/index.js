@@ -174,6 +174,7 @@ function eventRender(arc) {
           </li>
           `;
 
+
     list.insertAdjacentHTML('beforeend', item);
   });
 }
