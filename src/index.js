@@ -34,6 +34,7 @@ if (window.matchMedia('(min-width: 1280px)').matches) {
 findEvent(searchQuery, page, itemsPerPage, country).then(elem => {
   eventRender(elem._embedded.events);
   pagination(elem);
+
   // list.addEventListener('click', e => {
   //   if (e.target.nodeName == 'P') {
   //     const modalBack = document.querySelector('.modal__back');
@@ -45,6 +46,7 @@ findEvent(searchQuery, page, itemsPerPage, country).then(elem => {
   //     });
   //   }
   // });
+
 });
 
 inputSearch.addEventListener('input', e => {
@@ -122,10 +124,6 @@ inputDropDownWrap.addEventListener('click', e => {
   }
 });
 
-// Modal
-
-// const basicLightbox = require('basiclightbox');
-// import * as basicLightbox from 'basiclightbox';
 
 // Functions
 
