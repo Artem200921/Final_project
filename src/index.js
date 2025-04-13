@@ -166,10 +166,12 @@ function eventRender(arc) {
   arc.forEach(elem => {
     const item = `
           <li class=""><button class="create">
-          <img src="${elem.images[0].url}" alt="" width="480">
-              <h2 class="">${elem.name}</h2>
-              <p class="">${elem.dates.start.localDate}</p>
-              <p class="">${elem._embedded.venues[0].name}</p>
+          <div class="events__item--wrap"></div>
+            <img src="${elem.images[0].url}" alt="Event Image" class="events__image"/>
+              <h3 class="events__item--title">${elem.name.length > 29 ? elem.name.slice(0, 29) + '...' : elem.name}</h3>
+              <p class="events__item--date">${elem.dates.start.localDate}</p>
+              <p class="events__item--location">Location: City, Country</p>
+             
               </button>
           </li>
           `;
