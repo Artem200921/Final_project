@@ -8,8 +8,8 @@
           <p class="events__item--location">${t._embedded.venues[0].name}</p>
         </div>
         <div id="${n}" class="modal__back hide">
-          <div class="event__modal">
-            <button class="close">X</button>
+        <div class="event__modal">
+        <button class="close">X</button>
             <img src="${t.images[0].url}" alt="" width="120" class="modal__img">
             <h3 class="modal__title">INFO</h3>
             <p class="modal__info">${t._embedded.venues[0].name}</p>
@@ -28,4 +28,4 @@
         </div>
       </li>
     `;p.insertAdjacentHTML("beforeend",i)}),document.querySelectorAll(".events__item").forEach(t=>{t.addEventListener("click",()=>{let e=t.getAttribute("data-modal");document.getElementById(e).classList.remove("hide")})}),document.querySelectorAll(".modal__back .close").forEach(t=>{t.addEventListener("click",t=>{t.stopPropagation(),t.target.closest(".modal__back").classList.add("hide")})})}l.addEventListener("click",t=>{t.target.classList.contains("dropdown__link")?(p.innerHTML="",o=t.target.textContent,console.log(d),setTimeout(()=>{m(f,i,s,o).then(t=>{_(t),g(t._embedded.events)})},500),a.value=t.target.textContent):console.log("not a country")})}();
-//# sourceMappingURL=Final_project.f5ef4ab7.js.map
+//# sourceMappingURL=Final_project.bb692811.js.map
