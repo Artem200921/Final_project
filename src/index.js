@@ -180,34 +180,30 @@ function eventRender(arc) {
           <p class="events__item--location">${elem._embedded.venues[0].name}</p>
         </div>
         <div id="${modalId}" class="modal__back hide">
-          <div class="event__modal">
-            <button class="close">X</button>
-            <img src="${
-              elem.images[0].url
-            }" alt="" width="120" class="modal__img">
+        <div class="event__modal">
+        <button class="close">X</button>
+            <img src="${elem.images[0].url
+      }" alt="" width="120" class="modal__img">
             <h3 class="modal__title">INFO</h3>
             <p class="modal__info">${elem._embedded.venues[0].name}</p>
             <h3 class="modal__title">WHEN</h3>
             <p class="modal__info">${elem.dates.start.localDate}</p>
-            <p class="modal__info">${elem.dates.start.localTime} (${
-      elem.dates.timezone
-    })</p>
+            <p class="modal__info">${elem.dates.start.localTime} (${elem.dates.timezone
+      })</p>
             <h3 class="modal__title">WHERE</h3>
             <p class="modal__info">${elem._embedded.venues[0].country.name}</p>
             <p class="modal__info">${elem._embedded.venues[0].address.line1}</p>
             <h3 class="modal__title">WHO</h3>
             <p class="modal__info">${elem._embedded.attractions[0].name}</p>
-            <p class="${
-              elem._embedded.attractions &&
-              elem._embedded.attractions.length > 1
-                ? 'modal__info'
-                : ''
-            }">
-  ${
-    elem._embedded.attractions && elem._embedded.attractions.length > 1
-      ? elem._embedded.attractions[1].name
-      : ''
-  }
+            <p class="${elem._embedded.attractions &&
+        elem._embedded.attractions.length > 1
+        ? 'modal__info'
+        : ''
+      }">
+  ${elem._embedded.attractions && elem._embedded.attractions.length > 1
+        ? elem._embedded.attractions[1].name
+        : ''
+      }
 </p>
           </div>
         </div>
